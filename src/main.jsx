@@ -6,16 +6,19 @@ import Layout from "./layout/Layout";
 
 import { AuthProvider } from "./auth/AuthContext";
 import { ApiProvider } from "./api/ApiContext";
-import { PageProvider } from "./layout/PageContext";
+// Import BrowserRouter from react-router-dom
+import { BrowserRouter } from "react-router-dom";
 
+// Wrap your app in <BrowserRouter> to enable routing
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <ApiProvider>
-      <PageProvider>
+      <BrowserRouter>
+        {/* Layout and App are now inside BrowserRouter for routing */}
         <Layout>
           <App />
         </Layout>
-      </PageProvider>
+      </BrowserRouter>
     </ApiProvider>
-  </AuthProvider>,
+  </AuthProvider>
 );

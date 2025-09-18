@@ -1,9 +1,12 @@
-import { usePage } from "./layout/PageContext";
+// Import React Router components
+import { Routes, Route } from "react-router-dom";
 
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ActivitiesPage from "./activities/ActivitiesPage";
+import ActivityDetails from "./activities/ActivityDetails";
 import Error404 from "./Error404.jsx";
+import Layout from "./layout/Layout";
 
 /**
  * Fitness Trackr is a platform where fitness enthusiasts can share their workouts and
@@ -11,11 +14,20 @@ import Error404 from "./Error404.jsx";
  * account will be able to upload and manage their own activities.
  */
 export default function App() {
-  const { page } = usePage();
-
-  if (page === "register") return <Register />;
-  if (page === "login") return <Login />;
-  if (page === "activities") return <ActivitiesPage />;
-
-  return <Error404 />;
+  // Use a layout route so all pages share the navigation and layout
+  return (
+    <Routes>
+      {/* Layout route wraps all main pages */}
+      <Route path="/" element={<Layout />}>
+        {/* Nested routes appear inside <Outlet /> in Layout */}
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="activities" element={<ActivitiesPage />} />
+        {/* Dynamic route for single activity details */}
+        <Route path="activities/:activityId" element={<ActivityDetails />} />
+        {/* Catch-all route for 404 errors */}
+        <Route path="*" element={<Error404 />} />
+      </Route>
+    </Routes>
+  );
 }

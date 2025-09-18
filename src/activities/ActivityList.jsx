@@ -1,6 +1,7 @@
 import { useAuth } from "../auth/AuthContext";
 import useQuery from "../api/useQuery";
-import useMutation from "../api/useMutation";
+// Import Link from react-router-dom for navigation
+import { Link } from "react-router-dom";
 
 /** Shows a list of activities. */
 export default function ActivityList() {
@@ -33,12 +34,9 @@ function ActivityListItem({ activity }) {
 
   return (
     <li>
-      <p>{activity.name}</p>
-      {token && (
-        <button onClick={() => deleteActivity()}>
-          {loading ? "Deleting" : error ? error : "Delete"}
-        </button>
-      )}
+      {/* Link to the details page for this activity */}
+      <Link to={`/activities/${activity.id}`}>{activity.name}</Link>
+      {/* The delete button will be moved to the details page in the next step */}
     </li>
   );
 }
