@@ -11,6 +11,8 @@ export default function ActivityList() {
     error,
   } = useQuery("/activities", "activities");
 
+  // Debug: log activities to the console
+  console.log("activities:", activities);
   if (loading || !activities) return <p>Loading...</p>;
   if (error) return <p>Sorry! {error}</p>;
 

@@ -12,6 +12,8 @@ export default function Navbar() {
       <nav>
         {/* Link to activities page */}
         <Link to="/activities">Activities</Link>
+        {/* Link to routines page */}
+        <Link to="/routines">Routines</Link>
         {token ? (
           // Log out still uses a button since it's an action
           <button onClick={logout}>Log out</button>
