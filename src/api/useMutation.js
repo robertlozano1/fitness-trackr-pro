@@ -12,19 +12,26 @@ export default function useMutation(method, resource, tagsToInvalidate) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const mutate = async (body) => {
+  // mutate can accept an optional overrideResource as a second argument
+  const mutate = async (body, overrideResource) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await request(resource, {
-        method,
-        body: JSON.stringify(body),
-      });
+      const target = overrideResource || resource;
+      const options = { method };
+      if (body !== undefined && body !== null)
+        options.body = JSON.stringify(body);
+      const result = await request(target, options);
       setData(result);
       invalidateTags(tagsToInvalidate);
+      return result;
     } catch (e) {
       console.error(e);
+      // Store the friendly message locally for components that read `error`
       setError(e.message);
+      // Rethrow so callers (pages/components) can handle the error and show it
+      // in a contextual place (e.g., per-activity error box).
+      throw e;
     } finally {
       setLoading(false);
     }

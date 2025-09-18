@@ -25,9 +25,61 @@ export function ApiProvider({ children }) {
       ...options,
       headers,
     });
-    const isJson = /json/.test(response.headers.get("Content-Type"));
-    const result = isJson ? await response.json() : undefined;
-    if (!response.ok) throw Error(result?.message ?? "Something went wrong :(");
+    const method =
+      options && options.method ? options.method.toUpperCase() : "GET";
+    let result;
+    // Read response text once (if any) so we can reuse it for parsing and errors
+    let rawText = undefined;
+    if (response.status !== 204) {
+      try {
+        rawText = await response.text();
+      } catch {
+        rawText = undefined;
+      }
+    }
+
+    // Try to parse JSON from the body when available (useful for error messages).
+    // Some servers may omit the Content-Type header; in that case, try to
+    // detect JSON by looking at the leading characters of the body.
+    let parsedJson;
+    const contentType = response.headers.get("Content-Type");
+    const looksLikeJson = rawText && /^\s*[{[]/.test(rawText);
+    if (
+      rawText &&
+      ((contentType && /json/.test(contentType)) || looksLikeJson)
+    ) {
+      try {
+        parsedJson = JSON.parse(rawText);
+      } catch {
+        parsedJson = undefined;
+      }
+    }
+
+    // For non-DELETE successful requests, return parsed JSON result
+    if (method !== "DELETE") {
+      result = parsedJson;
+    } else {
+      result = undefined;
+    }
+
+    if (!response.ok) {
+      // Prefer the parsed JSON message when available
+      let errorMessage = "Something went wrong :(";
+      if (parsedJson?.message) {
+        errorMessage = parsedJson.message;
+      } else if (parsedJson?.error) {
+        // some APIs use `error` field
+        errorMessage = parsedJson.error;
+      } else if (rawText) {
+        errorMessage = `${response.status} ${response.statusText}: ${rawText}`;
+      } else {
+        errorMessage = `${response.status} ${response.statusText}`;
+      }
+      const err = Error(errorMessage);
+      // Attach parsed JSON so callers can inspect structured error details
+      err.errorData = parsedJson;
+      throw err;
+    }
     return result;
   };
 

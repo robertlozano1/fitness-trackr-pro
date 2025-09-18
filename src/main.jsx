@@ -14,10 +14,7 @@ createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <ApiProvider>
       <BrowserRouter>
-        {/* Layout and App are now inside BrowserRouter for routing */}
-        <Layout>
-          <App />
-        </Layout>
+        <App />
       </BrowserRouter>
     </ApiProvider>
   </AuthProvider>

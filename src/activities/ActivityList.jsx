@@ -27,18 +27,10 @@ export default function ActivityList() {
 
 /** Shows a single activity. Logged-in users will also see a delete button. */
 function ActivityListItem({ activity }) {
-  const { token } = useAuth();
-  const {
-    mutate: deleteActivity,
-    loading,
-    error,
-  } = useMutation("DELETE", "/activities/" + activity.id, ["activities"]);
-
+  // Only link to the details page for this activity
   return (
     <li>
-      {/* Link to the details page for this activity */}
       <Link to={`/activities/${activity.id}`}>{activity.name}</Link>
-      {/* The delete button will be moved to the details page in the next step */}
     </li>
   );
 }

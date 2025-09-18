@@ -61,21 +61,20 @@ export default function RoutineDetails() {
       {token && <SetForm routineId={routineId} />}
     </section>
   );
+}
 
-  function DeleteSetButton({ routineId, setId }) {
-    // Use correct endpoint: DELETE /sets/{id}
-    const {
-      mutate: deleteSet,
-      loading: setLoading,
-      error: setError,
-    } = useMutation("DELETE", `/sets/${setId}`, [`routines/${routineId}`]);
-    const handleDelete = async () => {
-      await deleteSet();
-    };
-    return (
-      <button onClick={handleDelete} disabled={setLoading}>
-        {setLoading ? "Deleting..." : setError ? setError : "Delete Set"}
-      </button>
-    );
-  }
+function DeleteSetButton({ routineId, setId }) {
+  const {
+    mutate: deleteSet,
+    loading: setLoading,
+    error: setError,
+  } = useMutation("DELETE", `/sets/${setId}`, [`routines/${routineId}`]);
+  const handleDelete = async () => {
+    await deleteSet();
+  };
+  return (
+    <button onClick={handleDelete} disabled={setLoading}>
+      {setLoading ? "Deleting..." : setError ? setError : "Delete Set"}
+    </button>
+  );
 }

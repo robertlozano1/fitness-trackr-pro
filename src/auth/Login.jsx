@@ -23,10 +23,16 @@ export default function Login() {
     }
   };
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    await tryLogin(formData);
+  }
+
   return (
     <>
       <h1>Log in to your account</h1>
-      <form action={tryLogin}>
+      <form onSubmit={handleSubmit}>
         <label>
           Username
           <input type="text" name="username" required />

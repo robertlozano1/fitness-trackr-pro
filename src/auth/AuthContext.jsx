@@ -21,8 +21,13 @@ export function AuthProvider({ children }) {
       },
       body: JSON.stringify(credentials),
     });
-    const result = await response.json();
-    if (!response.ok) throw result;
+    let result;
+    try {
+      result = await response.json();
+    } catch {
+      // ignore JSON parse errors
+    }
+    if (!response.ok) throw result ?? { message: "Registration failed" };
     setToken(result.token);
   };
 
@@ -34,8 +39,13 @@ export function AuthProvider({ children }) {
       },
       body: JSON.stringify(credentials),
     });
-    const result = await response.json();
-    if (!response.ok) throw result;
+    let result;
+    try {
+      result = await response.json();
+    } catch {
+      // ignore JSON parse errors
+    }
+    if (!response.ok) throw result ?? { message: "Login failed" };
     setToken(result.token);
   };
 

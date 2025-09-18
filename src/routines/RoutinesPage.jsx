@@ -10,6 +10,11 @@ export default function RoutinesPage() {
   const { token } = useAuth();
   const { data: routines, loading, error } = useQuery("/routines");
 
+  // Debug logging
+  console.log("RoutinesPage: routines", routines);
+  console.log("RoutinesPage: loading", loading);
+  console.log("RoutinesPage: error", error);
+
   if (loading) return <p>Loading routines...</p>;
   if (error) return <p>Error loading routines: {error}</p>;
 
@@ -18,12 +23,16 @@ export default function RoutinesPage() {
       <h1>Routines</h1>
       {token && <RoutineForm />}
       <ul>
-        {routines?.map((routine) => (
-          <li key={routine.id}>
-            {/* Link to routine details page */}
-            <Link to={`/routines/${routine.id}`}>{routine.name}</Link>
-          </li>
-        ))}
+        {Array.isArray(routines) && routines.length > 0 ? (
+          routines.map((routine) => (
+            <li key={routine.id}>
+              {/* Link to routine details page */}
+              <Link to={`/routines/${routine.id}`}>{routine.name}</Link>
+            </li>
+          ))
+        ) : (
+          <li>No routines found.</li>
+        )}
       </ul>
     </section>
   );

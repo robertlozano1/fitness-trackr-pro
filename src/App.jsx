@@ -4,11 +4,11 @@ import { Routes, Route } from "react-router-dom";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ActivitiesPage from "./activities/ActivitiesPage";
-import ActivityDetails from "./activities/ActivityDetails";
-import RoutinesPage from "./routines/RoutinesPage";
-import RoutineDetails from "./routines/RoutineDetails";
 import Error404 from "./Error404.jsx";
+import ActivityDetails from "./activities/ActivityDetails.jsx";
 import Layout from "./layout/Layout";
+import RoutinesPage from "./routines/RoutinesPage.jsx";
+import RoutineDetails from "./routines/RoutineDetails.jsx";
 
 /**
  * Fitness Trackr is a platform where fitness enthusiasts can share their workouts and

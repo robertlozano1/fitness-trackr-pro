@@ -22,7 +22,6 @@ export default function SetForm({ routineId }) {
     const activityId = formData.get("activityId");
     const count = formData.get("count");
     try {
-      // API expects activityId, routineId, and count in the body
       await addSet({ activityId, routineId, count });
       e.target.reset();
     } catch (err) {

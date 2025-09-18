@@ -23,10 +23,16 @@ export default function Register() {
     }
   };
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    await tryRegister(formData);
+  }
+
   return (
     <>
       <h1>Register for an account</h1>
-      <form action={tryRegister}>
+      <form onSubmit={handleSubmit}>
         <label>
           Username
           <input type="text" name="username" required />

@@ -41,3 +41,19 @@ ul,
 ol {
   padding-left: 1rem;
 }
+
+/* Per-activity layout */
+.activity-item {
+  margin-bottom: 0.75rem;
+}
+
+/* Small gray error box shown under an activity */
+.activity-error {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 0.25rem 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #333;
+  border-radius: 3px;
+}
