@@ -5,6 +5,8 @@ import { useAuth } from "../auth/AuthContext";
 /**
  * ActivitiesPage fetches and displays a list of activities from the API.
  * All users can see the list, even if not logged in.
+ * If logged in, you can add and delete activities.
+ * Uses useQuery to fetch activities and useMutation for create/delete.
  */
 export default function ActivitiesPage() {
   // Set up mutation for creating activities
@@ -16,6 +18,7 @@ export default function ActivitiesPage() {
   } = useMutation("POST", "/activities", ["activities"]);
 
   // Handler for the new activity form submission
+  // Called when the user submits the add activity form
   async function handleCreateActivity(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -44,7 +47,7 @@ export default function ActivitiesPage() {
     error,
   } = useQuery("/activities", "activities");
 
-  // Debug logging
+  // Debug logging to help you see what's happening
   console.log("ActivitiesPage: activities", activities);
   console.log("ActivitiesPage: loading", loading);
   console.log("ActivitiesPage: error", error);
@@ -54,6 +57,7 @@ export default function ActivitiesPage() {
   // Track per-activity errors so we can show the API message under each item
   const [activityErrors, setActivityErrors] = useState({});
 
+  // Render the activities page UI
   return (
     <>
       <h1>Activities</h1>

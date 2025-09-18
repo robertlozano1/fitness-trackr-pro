@@ -1,6 +1,7 @@
-// Import React Router components
+// Import React Router components for navigation and routing
 import { Routes, Route } from "react-router-dom";
 
+// Import all main page components
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ActivitiesPage from "./activities/ActivitiesPage";
@@ -11,21 +12,21 @@ import RoutinesPage from "./routines/RoutinesPage.jsx";
 import RoutineDetails from "./routines/RoutineDetails.jsx";
 
 /**
- * Fitness Trackr is a platform where fitness enthusiasts can share their workouts and
- * discover new routines. Anyone can browse the site and make an account, and users with an
- * account will be able to upload and manage their own activities.
+ * App component sets up all routes for the app using React Router.
+ * The Layout route wraps all main pages so navigation and layout are shared.
+ * Each <Route> maps a URL path to a page component.
  */
 export default function App() {
   // Use a layout route so all pages share the navigation and layout
   return (
     <Routes>
-      {/* Layout route wraps all main pages */}
+      {/* Layout route wraps all main pages and provides navigation */}
       <Route path="/" element={<Layout />}>
         {/* Nested routes appear inside <Outlet /> in Layout */}
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="activities" element={<ActivitiesPage />} />
-        {/* Routines routes */}
+        {/* Routines routes for list and details */}
         <Route path="routines" element={<RoutinesPage />} />
         <Route path="routines/:routineId" element={<RoutineDetails />} />
         {/* Dynamic route for single activity details */}
